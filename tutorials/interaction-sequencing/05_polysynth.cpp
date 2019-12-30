@@ -96,9 +96,6 @@ public:
         gui.init(); // Initialize GUI. Don't forget this!
         navControl().active(false); // Disable nav control (because we are using the control to drive the synth
 
-	// Scales are defined as a MIDI - Frequency mapping 
-	scale.load("path/to/ScaleFile.scl");
-
     }
 //    virtual void onAnimate(double dt) override {
 //        navControl().active(!gui.usingInput());
@@ -163,7 +160,12 @@ private:
 
     PolySynth mPolySynth;
 
-    Scale scale;	// TODO Is calling it Scale too generic?
+    // Pass path, tuning of A
+    Scale scale {"path/to/ScaleFile.scl", 440};	// Is calling it Scale too generic?
+
+    // Passing constants
+    Scale scale {440};	// Defaults to equal temperament
+
 };
 
 
