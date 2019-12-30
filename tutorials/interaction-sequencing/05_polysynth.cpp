@@ -96,6 +96,9 @@ public:
         gui.init(); // Initialize GUI. Don't forget this!
         navControl().active(false); // Disable nav control (because we are using the control to drive the synth
 
+	// Scales are defined as a MIDI - Frequency mapping 
+	scale.load("path/to/ScaleFile.scl");
+
     }
 //    virtual void onAnimate(double dt) override {
 //        navControl().active(!gui.usingInput());
@@ -132,7 +135,14 @@ public:
          */
 
         int midiNote = asciiToMIDI(k.key());
-        float freq = 440.0f * powf(2, (midiNote - 69)/12.0f);
+        // float freq = 440.0f * powf(2, (midiNote - 69)/12.0f);
+
+	float freq = scale.freqFromMIDI(midiNote);
+
+	// We could also compute the frequency directly from the ASCII
+	// value 
+	float freq = scale.freqFromASCII(k.key());
+
         voice->set(X, Y, Size, freq, 120);
         /*
          * After the voice is configured, it needs to be triggered in the
@@ -152,6 +162,8 @@ private:
     ControlGUI gui;
 
     PolySynth mPolySynth;
+
+    Scale scale;	// TODO Is calling it Scale too generic?
 };
 
 
